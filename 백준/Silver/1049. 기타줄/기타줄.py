@@ -1,5 +1,3 @@
-from math import ceil
-
 n, m = map(int, input().split())
 whole_strings = 1000
 each_of_strings = 1000
