@@ -1,21 +1,16 @@
+from functools import reduce
 from itertools import combinations_with_replacement
 
-n = int(input())
-cases = combinations_with_replacement(list(range(1, 10)), n)
-A = list(map(int, input().split()))
-mult = 1
-for num in A:
-    mult *= num
+def check(n, a):
+    for comb in combinations_with_replacement(range(1, 10), n):
+        mutiple = reduce(lambda x, y: x * y, comb)
+        if mutiple > a:
+            return comb
 
-b = True
-for case in cases:
-    mult_B = 1
-    for num in case:
-        mult_B *= num
-        
-    if mult_B > mult:
-        print(*case)
-        b = False
-        break
-if b:
-    print(-1)
+    return [-1]
+
+n = int(input())
+a = list(map(int, input().split()))
+a_multiple = reduce(lambda x, y: x * y, a)
+
+print(*check(n, a_multiple))
