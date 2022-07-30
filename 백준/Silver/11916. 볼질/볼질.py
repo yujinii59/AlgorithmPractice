@@ -1,36 +1,48 @@
-def moves():
-    for i in range(3):
-        if grounds[i+1] > 1:
-            grounds[i+1] -= 1
-            grounds[i+2] += 1
-        else:
-            break
+def action(kind, state, score):
+    if kind == 'a':    
+        if state[1] & state[2] & state[3]:
+            score += 1
+            state[3] = 0
+        if state[1] & state[2]:
+            state[3] = 1
+            state[2] = 0
+        if state[1]:
+            state[2] = 1
+            state[1] = 0
+        state[1] = 1
+    else:
+        if state[3]:
+            score += 1
+            state[3] = 0
+        if state[2]:
+            state[3] = 1
+            state[2] = 0
+        if state[1]:
+            state[2] = 1
+            state[1] = 0
+            
+    return state, score
 
 n = int(input())
-balls = list(map(int, input().split()))
-grounds = {i+1:0 for i in range(4)}
-cnt = 0
-for ball in balls:
-    if ball == 1:
-        cnt += 1
-    elif ball == 2:
-        cnt = 0
-        grounds[1] += 1
-        moves()
-        
-    elif ball == 3:
-        cnt += 1
-        for i in range(3, 0, -1):
-            if grounds[i] > 0:
-                grounds[i] -= 1
-                grounds[i+1] += 1
-    
-    if cnt == 4:
-        cnt = 0
-        grounds[1] += 1
-        moves()
-    
-        
-print(grounds[4])
-    
-        
+state = {0: 0, 1: 0, 2: 0, 3: 0}
+kinds = list(map(int, input().split()))
+
+ball = 0
+score = 0
+for kind in kinds:
+    if kind == 1:
+        ball += 1
+        if ball == 4:
+            state, score = action(kind='a', state=state, score=score)
+            ball = 0
+    elif kind == 2:
+        state, score = action(kind='a', state=state, score=score)
+        ball = 0
+    elif kind == 3:
+        state, score = action(kind='b', state=state, score=score)
+        ball += 1
+        if ball == 4:
+            state, score = action(kind='a', state=state, score=score)
+            ball = 0
+
+print(score)
