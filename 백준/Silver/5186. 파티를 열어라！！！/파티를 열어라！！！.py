@@ -1,36 +1,41 @@
-k = int(input())
-for i in range(k):
-    n, c, l = map(int, input().split())
-    friends = {i+1:{'I':0, 'S':0} for i in range(l)}
+from sys import stdin
+k = int(stdin.readline().strip())
+for i in range(1, k+1):
+    n, c, l = map(int, stdin.readline().strip().split())
+    area = {}
+    dType = {}
+    yj = 0
     for _ in range(n):
-        area, status = input().split()
-        friends[int(area)][status] += 1
-        
-    cars = {i+1:[] for i in range(l)}
-    for _ in range(c):
-        area, limit = map(int, input().split())
-        cars[area].append(limit)
-        
-    for area, limits in cars.items():
-        limits = sorted(limits, reverse=True)
-        for limit in limits:
-            driver_cnt = friends[area]['S']
-            drunken_cnt = friends[area]['I']
-            if driver_cnt > 0:
-                if drunken_cnt >= limit - 1:
-                    friends[area]['I'] -= limit - 1
-                    friends[area]['S'] -= 1
-                    n -= limit
-                else:
-                    limit_tmp = limit - drunken_cnt
-                    friends[area]['I'] = 0
-                    n -= drunken_cnt
-                    if driver_cnt >= limit_tmp:
-                        friends[area]['S'] -= limit_tmp
-                        n -= limit_tmp
-                    else:
-                        friends[area]['S'] = 0
-                        n -= driver_cnt
+        a, d = stdin.readline().strip().split()
+        if a in area:
+            area[a] += 1
+            if d == 'S' and a in dType:
+                dType[a] += 1
+            elif d == 'S' and a not in dType:
+                dType[a] = 1
+        else:
+            area[a] = 1
+            if d == 'S':
+                dType[a] = 1
     
-    print(f'Data Set {i+1}:')
-    print(n)
+    cars = {}
+    for _ in range(c):
+        b, p = stdin.readline().strip().split()
+        if b in cars:
+            cars[b].append(int(p))
+        else:
+            cars[b] = [int(p)]
+            
+            
+    for b, cnt in cars.items():
+        cnt = sorted(cnt, reverse=True)
+        for c in cnt:
+            if dType.get(b, 0):
+                dType[b] -= 1
+                area[b] -= c
+                if area[b] <= 0:
+                    area[b] = 0
+                    dType[b] = 0
+                    
+    yj = sum(area.values())
+    print(f"Data Set {i}:\n{yj}")
