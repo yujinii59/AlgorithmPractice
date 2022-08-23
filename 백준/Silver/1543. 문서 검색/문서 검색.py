@@ -1,0 +1,6 @@
+string = input()
+l = len(string)
+find = input()
+fl = len(find)
+string = string.replace(find, '')
+print((l - len(string)) // fl)
