@@ -1,9 +1,11 @@
+import sys
+
 t = int(input())
 for _ in range(t):
-    operations = input()
+    operations = sys.stdin.readline().rstrip()
     d_cnt = operations.count('D')
-    n = int(input())
-    ls = input()
+    n = int(sys.stdin.readline())
+    ls = sys.stdin.readline().rstrip()
     if d_cnt > n:
         print('error')
     else:
