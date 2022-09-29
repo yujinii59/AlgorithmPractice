@@ -1,0 +1,5 @@
+k = int(input())
+c1, c0 = map(int, input().split())
+a, b, n = map(int, input().split())
+rst = (b-a) / (2*n)
+print(rst)
