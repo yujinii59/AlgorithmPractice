@@ -1,14 +1,12 @@
 n = int(input())
-seq = list(map(int, input().split()))
-max_length = 1
-case = {}
-for num in seq:
-    if num not in case:
-        case[num] = 1
-    
-    for n in case:
-        if n < num:
-            case[num] = max(case[num], case[n] + 1)
-            max_length = max(max_length, case[num])
-            
-print(max_length)
+boxes = list(map(int, input().split()))
+dp = {}
+max_cnt = 1
+for box in boxes:
+    count = dp.get(box, 1)
+    for size, cnt in dp.items():
+        if size < box:
+            count = max(count, cnt+1)
+    dp[box] = count
+    max_cnt = max(max_cnt, count)
+print(max_cnt)
