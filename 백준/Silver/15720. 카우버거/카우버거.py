@@ -1,0 +1,8 @@
+b, s, d = map(int, input().split())
+min_cnt = min(b, s, d)
+burgers = sorted(list(map(int, input().split())), reverse=True)
+sidemenus = sorted(list(map(int, input().split())), reverse=True)
+drinks = sorted(list(map(int, input().split())), reverse=True)
+price = sum(burgers[:min_cnt]+sidemenus[:min_cnt]+drinks[:min_cnt])*0.9 + sum(burgers[min_cnt:]+sidemenus[min_cnt:]+drinks[min_cnt:])
+print(sum(burgers+sidemenus+drinks))
+print(int(price))
