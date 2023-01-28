@@ -1,39 +1,20 @@
-moves = {
-            'r':[(0,1,'r'), (1,1,'d')], 
-            'c':[(1,0,'c'), (1,1,'d')], 
-            'd':[(0,1,'r'), (1,0,'c'), (1,1,'d')]
-        }
-
-cases = {}
-def dfs(direction, x, y):
-    cnt = 0
-    if x == n-1 and y == n-1:
-        cnt = 1
-    elif (x, y, direction) in cases:
-        cnt = cases[(x, y, direction)]
-    else:
-        for move in moves[direction]:
-            move_x = x + move[0]
-            move_y = y + move[1]
-            direct = move[2]
-            if move_x >= n or move_y >= n:
-                continue
-                
-            if direct == 'd':
-                if maps[move_x][move_y] == 0 and maps[move_x - 1][move_y] == 0 and maps[move_x][move_y - 1] == 0:
-                    cnt += dfs(direct, move_x, move_y)
-            else:
-                if maps[move_x][move_y] == 0:
-                    cnt += dfs(direct, move_x, move_y)
-                    
-        cases[(x, y, direction)] = cnt                
-    return cnt
-
-
 n = int(input())
-maps = []
-for _ in range(n):
-    maps.append(list(map(int, input().split())))
-    
-cnt = dfs('r', 0, 1)
-print(cnt)
+states = [list(map(int, input().split())) for _ in range(n)]
+cases = [[[0,0,0] for _ in range(n)] for _ in range(n)]
+cases[0][1][0] = 1
+moves = {0: {0:(0,1), 2:(1,1)}, 1:{1:(1,0),2:(1,1)}, 2:{0:(0,1), 1:(1,0), 2:(1,1)}}
+for i in range(n):
+    for j in range(n):
+        for k in range(3):
+            case = cases[i][j][k]
+            for direction, move in moves[k].items():
+                mr = i + move[0]
+                mc = j + move[1]
+                if (mr >= n or mc >= n) or (states[mr][mc] == 1):
+                    continue
+                
+                if direction == 2:
+                    if states[i+1][j]+states[i][j+1] > 0:
+                        continue
+                cases[mr][mc][direction] += case
+print(sum(cases[n-1][n-1]))
