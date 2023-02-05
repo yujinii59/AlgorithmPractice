@@ -1,0 +1,4 @@
+if '9' in input():
+    print('F')
+else:
+    print('S')
