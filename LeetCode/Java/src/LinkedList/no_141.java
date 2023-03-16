@@ -21,27 +21,8 @@ public class no_141 {
 
     public static void main(String[] args) {
         int[] arr = new int[] {3,2,0,-4};
-        ListNode head = null;
-        ListNode node = null;
-        for (int num : arr) {
-            if (head == null) {
-                head = new ListNode(num);
-                node = head;
-            } else {
-                node.next = new ListNode(num);
-                node = node.next;
-            }
-        }
+        ListNode head = ListNode.makeListNode(arr);
 
         System.out.println(hasCycle(head));
     }
 }
-
-class ListNode {
-     int val;
-     ListNode next;
-     ListNode(int x) {
-         val = x;
-         next = null;
-     }
- }
