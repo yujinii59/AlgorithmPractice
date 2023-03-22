@@ -8,8 +8,8 @@ public class no_234 {
             ListNode node = new ListNode(head.val);
             node.next = reverseNode;
             reverseNode = node;
-            if (reverseNode == head.next) return true;
-            if (reverseNode == head) return true;
+            if (reverseNode.equals(head.next)) return true;
+            if (reverseNode.equals(head)) return true;
             head = head.next;
         }
 
